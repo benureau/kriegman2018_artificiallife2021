@@ -56,6 +56,7 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
     num_evaluated_this_gen = 0
     ids_to_analyze = []
 
+    processes = []
     for ind in pop:
 
         # write the phenotype of a SoftBot to a file so that VoxCad can access for sim.
@@ -69,7 +70,8 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
             print_log.message("Skipping invalid individual")
 
         # don't evaluate if identical phenotype has already been evaluated
-        elif pop.learning_trials <= 1 and env.actuation_variance == 0 and ind.md5 in pop.already_evaluated:
+        elif (((not hasattr(env, 'adult_gen')) or pop.gen > env.adult_gen) and
+              pop.learning_trials <= 1 and env.actuation_variance == 0 and ind.md5 in pop.already_evaluated):
             for rank, goal in pop.objective_dict.items():
                 if goal["tag"] is not None:
                     setattr(ind, goal["name"], pop.already_evaluated[ind.md5][rank])
@@ -86,10 +88,16 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
             pop.total_evaluations += 1
             ids_to_analyze += [ind.id]
 
-            sub.Popen("./voxelyze  -f " + run_directory + "/voxelyzeFiles/" + run_name + "--id_%05i.vxa" % ind.id,
-                      shell=True)
+            cmd = "./voxelyze -f " + run_directory + "/voxelyzeFiles/" + run_name + "--id_%05i.vxa" % ind.id
+            proc = sub.Popen(cmd, shell=True)
+            processes.append(proc)
 
     print_log.message("Launched {0} voxelyze calls, out of {1} individuals".format(num_evaluated_this_gen, len(pop)))
+
+    # for i, proc in enumerate(processes):
+    #     stdout, stderr = proc.communicate()
+    #     print '{}.STDOUT:{}'.format(i, stdout)
+    #     print '{}.STDERR:{}'.format(i, stderr)
 
     num_evals_finished = 0
     all_done = False
@@ -139,9 +147,9 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
                     print_log.message("Duplicate voxelyze results found from THIS gen with id {}".format(this_id))
                     sub.call("rm " + run_directory + "/fitnessFiles/" + ls_check, shell=True)
 
-                elif this_id in pop.all_evaluated_individuals_ids and pop.learning_trials <= 1:
-                    print_log.message("Duplicate voxelyze results found from PREVIOUS gen with id {}".format(this_id))
-                    sub.call("rm " + run_directory + "/fitnessFiles/" + ls_check, shell=True)
+                # elif this_id in pop.all_evaluated_individuals_ids and pop.learning_trials <= 1:
+                #     print_log.message("Duplicate voxelyze results found from PREVIOUS gen with id {}".format(this_id))
+                #     sub.call("rm " + run_directory + "/fitnessFiles/" + ls_check, shell=True)
 
                 else:
                     num_evals_finished += 1
@@ -206,9 +214,9 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
 
             # wait a second and try again
             else:
-                time.sleep(0.5)
+                time.sleep(0.1)
         else:
-            time.sleep(0.5)
+            time.sleep(0.1)
 
     if not all_done:
         print_log.message("WARNING: Couldn't get a fitness value in time for some individuals. "

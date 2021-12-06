@@ -6,19 +6,17 @@ import random
 
 def read_voxlyze_results(population, print_log, filename="softbotsOutput.xml"):
     i = 0
-    max_attempts = 60
+    max_attempts = 60  # wait less than a minute (0.001 * 1.2 ** 60 ~= 57s)
     file_size = 0
     this_file = ""
 
+    delay = 0.001
+    file_size = os.stat(filename).st_size
     while (i < max_attempts) and (file_size == 0):
-        try:
-            file_size = os.stat(filename).st_size
-            this_file = open(filename)
-            this_file.close()
-        except ImportError:  # TODO: is this the correct exception?
-            file_size = 0
+        file_size = os.stat(filename).st_size
         i += 1
-        time.sleep(1)
+        time.sleep(delay)
+        delay *= 1.2
 
     if file_size == 0:
         print_log.message("ERROR: Cannot find a non-empty fitness file in %d attempts: abort" % max_attempts)
@@ -371,6 +369,8 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
         <MaxSlowdownPermitted>" + str(env.ballistic_max_slowdown) + "</MaxSlowdownPermitted>\n\
         </Environment>\n")
 
+    density = getattr(env, 'density', 1e+006)
+
     voxelyze_file.write(
         "<VXC Version=\"0.93\">\n\
         <Lattice>\n\
@@ -407,7 +407,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
             <FailModel>0</FailModel>\n\
             <Fail_Stress>0</Fail_Stress>\n\
             <Fail_Strain>0</Fail_Strain>\n\
-            <Density>1e+006</Density>\n\
+            <Density>" + str(density) + "</Density>\n\
             <Poissons_Ratio>0.35</Poissons_Ratio>\n\
             <CTE>0</CTE>\n\
             <uStatic>1</uStatic>\n\
@@ -431,7 +431,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
             <FailModel>0</FailModel>\n\
             <Fail_Stress>0</Fail_Stress>\n\
             <Fail_Strain>0</Fail_Strain>\n\
-            <Density>1e+006</Density>\n\
+            <Density>" + str(density) + "</Density>\n\
             <Poissons_Ratio>0.35</Poissons_Ratio>\n\
             <CTE>0</CTE>\n\
             <uStatic>1</uStatic>\n\
@@ -455,7 +455,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
             <FailModel>0</FailModel>\n\
             <Fail_Stress>0</Fail_Stress>\n\
             <Fail_Strain>0</Fail_Strain>\n\
-            <Density>1e+006</Density>\n\
+            <Density>" + str(density) + "</Density>\n\
             <Poissons_Ratio>0.35</Poissons_Ratio>\n\
             <CTE>" + str(0.01*(1+random.uniform(0, env.actuation_variance))) + "</CTE>\n\
             <uStatic>1</uStatic>\n\
@@ -479,7 +479,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
             <FailModel>0</FailModel>\n\
             <Fail_Stress>0</Fail_Stress>\n\
             <Fail_Strain>0</Fail_Strain>\n\
-            <Density>1e+006</Density>\n\
+            <Density>" + str(density) + "</Density>\n\
             <Poissons_Ratio>0.35</Poissons_Ratio>\n\
             <CTE>" + str(-0.01*(1+random.uniform(0, env.actuation_variance))) + "</CTE>\n\
             <uStatic>1</uStatic>\n\
@@ -503,7 +503,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
             <FailModel>0</FailModel>\n\
             <Fail_Stress>0</Fail_Stress>\n\
             <Fail_Strain>0</Fail_Strain>\n\
-            <Density>1e+006</Density>\n\
+            <Density>" + str(density) + "</Density>\n\
             <Poissons_Ratio>0.35</Poissons_Ratio>\n\
             <CTE>0</CTE>\n\
             <uStatic>1</uStatic>\n\
@@ -527,7 +527,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
             <FailModel>0</FailModel>\n\
             <Fail_Stress>0</Fail_Stress>\n\
             <Fail_Strain>0</Fail_Strain>\n\
-            <Density>1e+006</Density>\n\
+            <Density>" + str(density) + "</Density>\n\
             <Poissons_Ratio>0.35</Poissons_Ratio>\n\
             <CTE>" + str(0.01 * (1 + random.uniform(0, env.actuation_variance))) + "</CTE>\n\
             <uStatic>1</uStatic>\n\
@@ -551,7 +551,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
             <FailModel>0</FailModel>\n\
             <Fail_Stress>0</Fail_Stress>\n\
             <Fail_Strain>0</Fail_Strain>\n\
-            <Density>1e+006</Density>\n\
+            <Density>" + str(density) + "</Density>\n\
             <Poissons_Ratio>0.35</Poissons_Ratio>\n\
             <CTE>0</CTE>\n\
             <uStatic>1</uStatic>\n\

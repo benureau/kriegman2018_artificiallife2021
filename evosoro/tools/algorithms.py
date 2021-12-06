@@ -114,6 +114,16 @@ class PopulationBasedOptimizer(Optimizer):
             # update ages
             self.pop.update_ages()
 
+            # developemental (devoevo) program
+            env = self.env[0]
+            if hasattr(env, 'adult_gen'):
+                # set density
+                if self.pop.gen >= env.adult_gen:
+                    env.density = env.adult_density
+                else:
+                    env.density += (env.adult_density - env.density)/float(env.adult_gen - self.pop.gen)
+                print('density: {:.3f}'.format(env.density))
+
             # mutation
             print_log.message("Mutation starts")
             new_children = self.mutate(self.pop, print_log=print_log)
@@ -181,4 +191,3 @@ class GenerateMutProbOptimization(PopulationBasedOptimizer):
         PopulationBasedOptimizer.__init__(self, sim, env, pop, pareto_selection,
                                           partial(create_new_children_through_mutation,
                                                   prob_generating_func=prob_generating_func))
-

@@ -222,16 +222,16 @@ def initialize_folders(population, run_directory, run_name, save_networks, save_
                        save_lineages=True):
 
     # sub.call("mkdir " + run_directory + "/" + run_name + "/" + " 2>/dev/null", shell=True)
-    ret = sub.call("mkdir " + run_directory + "/" + " 2>/dev/null", shell=True)
-    if ret != 0:
-        response = raw_input("****************************************************\n"
-                             "** WARNING ** A directory named " + run_directory +
-                             " may exist already and would be erased.\n ARE YOU SURE YOU WANT TO CONTINUE? (y/n): ")
-        if not (("Y" in response) or ("y" in response)):
-            quit("Please change run name with -n DifferentName. Quitting.\n"
-                 "****************************************************\n\n")
-        else:
-            print "****************************************************\n"
+    # ret = sub.call("mkdir " + run_directory + "/" + " 2>/dev/null", shell=True)
+    # if ret != 0:
+    #     response = raw_input("****************************************************\n"
+    #                          "** WARNING ** A directory named " + run_directory +
+    #                          " may exist already and would be erased.\n ARE YOU SURE YOU WANT TO CONTINUE? (y/n): ")
+    #     if not (("Y" in response) or ("y" in response)):
+    #         quit("Please change run name with -n DifferentName. Quitting.\n"
+    #              "****************************************************\n\n")
+    #     else:
+    #         print "****************************************************\n"
 
     # clear directory
     sub.call("rm -rf " + run_directory + "/* 2>/dev/null", shell=True)

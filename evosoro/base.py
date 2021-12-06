@@ -58,7 +58,7 @@ class Env(VoxCadParams):
                  hurdle_height=1, hurdle_stop=np.inf, circular_hurdles=False, tunnel_width=8, forward_hurdles_only=True,
                  wall_height=3, back_stop=False, fence=False, debris=False, debris_size=0, debris_start=-np.inf,
                  biped=False, biped_leg_proportion=0.6, needle_position=0, ballistic_slowdown_fact=0.01,
-                 ballistic_max_slowdown=0.1, falling_prohibited=False, kramer_fabric=False):
+                 ballistic_max_slowdown=0.1, falling_prohibited=False, kramer_fabric=False, density=1e+006):
 
         VoxCadParams.__init__(self)
 
@@ -66,6 +66,7 @@ class Env(VoxCadParams):
 
         self.frequency = frequency
         self.gravity_enabled = gravity_enabled
+        self.density = density
         self.floor_enabled = floor_enabled
         self.temp_enabled = temp_enabled
         self.floor_slope = floor_slope

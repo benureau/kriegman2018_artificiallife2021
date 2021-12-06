@@ -4,7 +4,7 @@ import subprocess as sub
 import ast
 import time
 
-
+RESULT_DIR = os.path.abspath(os.path.join(__file__, '../../../results')
 NAME = "_Birth"
 LAMBDAS = ["M_48_4"]  # [1, 2, 4, 8, 16, 24, 32, 48]
 SIZE = (4, 4, 3)
@@ -31,8 +31,9 @@ def get_data_from_layer(layer):
 
 
 for LAMBDA in LAMBDAS:
-    for run in range(1, RUNS+1):
-        run_dir = "/home/sam/Archive/skriegma/AFPO_Both_{0}/run_{1}/bestSoFar".format(LAMBDA, run)
+    for run in range(0, RUNS):
+        # run_dir = "/home/sam/Archive/skriegma/AFPO_Both_{0}/run_{1}/bestSoFar".format(LAMBDA, run)
+        run_dir = "{0}/run_evodevo_{1}/bestSoFar".format(RESULT_DIR, run)
         best_of_gen_files = glob(run_dir + "/fitOnly/*")
         run_champ = sorted(best_of_gen_files, reverse=True)[0]
         # print run_champ
@@ -144,4 +145,3 @@ for LAMBDA in LAMBDAS:
 
     if PAUSE_BETWEEN_LAMBDA:
         time.sleep(105)
-
