@@ -14,11 +14,14 @@ from evosoro.softbot import Genotype, Phenotype, Population
 from evosoro.tools.algorithms import SetMutRateOptimization
 from evosoro.tools.checkpointing import continue_from_checkpoint
 
-
 from config import *
 
 
-RUN_NAME = "evo"
+POP_SIZE = 15
+
+MUT_NET_PROB_DIST = [1, 0.25, 0.25, 0.25, 0.25]  # first prob is for meta mutation
+
+RUN_NAME = "evodevo_pop15" # "Both"
 
 
 if __name__ == '__main__':
@@ -45,9 +48,17 @@ if __name__ == '__main__':
                                             scale=MUT_SCALE))
             self.to_phenotype_mapping.add_map(name="init_size", tag="<InitialVoxelSize>")
 
+            self.add_network(DirectEncoding(output_node_name="final_size", orig_size_xyz=IND_SIZE,
+                                            scale=MUT_SCALE))
+            self.to_phenotype_mapping.add_map(name="final_size", tag="<FinalVoxelSize>")
+
             self.add_network(DirectEncoding(output_node_name="init_offset", orig_size_xyz=IND_SIZE,
                                             scale=MUT_SCALE, symmetric=False))
             self.to_phenotype_mapping.add_map(name="init_offset", tag="<PhaseOffset>")
+
+            self.add_network(DirectEncoding(output_node_name="final_offset", orig_size_xyz=IND_SIZE,
+                                            scale=MUT_SCALE, symmetric=False))
+            self.to_phenotype_mapping.add_map(name="final_offset", tag="<FinalPhaseOffset>")
 
 
     if not os.path.isfile("./" + RUN_DIR + "/pickledPops/Gen_0.pickle"):

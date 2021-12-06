@@ -14,11 +14,13 @@ from evosoro.softbot import Genotype, Phenotype, Population
 from evosoro.tools.algorithms import SetMutRateOptimization
 from evosoro.tools.checkpointing import continue_from_checkpoint
 
-
 from config import *
 
 
-RUN_NAME = "evo"
+START_DENSITY = 1e+005
+ADULT_DENSITY = 1e+006
+ADULT_GEN     = 2000
+RUN_NAME = "devoevo_mass10"
 
 
 if __name__ == '__main__':
@@ -58,7 +60,9 @@ if __name__ == '__main__':
         my_sim = Sim(dt_frac=DT_FRAC, simulation_time=SIM_TIME, min_temp_fact=MIN_TEMP_FACT,
                      fitness_eval_init_time=INIT_TIME)
 
-        my_env = Env(temp_amp=TEMP_AMP)
+        my_env = Env(temp_amp=TEMP_AMP, density=START_DENSITY)
+        my_env.add_param("adult_gen", ADULT_GEN, "<AdultGen>")
+        my_env.add_param("adult_density", ADULT_DENSITY, "<AdultDensity>")
         my_env.add_param("growth_amplitude", GROWTH_AMPLITUDE, "<GrowthAmplitude>")
 
         my_objective_dict = ObjectiveDict()

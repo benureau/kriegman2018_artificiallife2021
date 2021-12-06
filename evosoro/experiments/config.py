@@ -1,0 +1,32 @@
+MAX_TIME = 48
+
+MIN_SEED = 1
+MAX_SEED = 30
+
+POP_SIZE = 30
+IND_SIZE = (4, 4, 3)
+MAX_GENS = 10000
+NUM_RANDOM_INDS = 1
+
+SIM_TIME = 10.5  # includes init time
+INIT_TIME = 0.5
+
+DT_FRAC = 0.35
+MIN_TEMP_FACT = 0.25
+GROWTH_AMPLITUDE = 0.75
+MIN_GROWTH_TIME = 0.10
+TEMP_AMP = 39
+
+MUT_NET_PROB_DIST = [1, 0.5, 0.5]  # first prob is for meta mutation
+MUT_RATE = 1/48.  # starting and lower bound of meta mutation rate (one voxel)
+MUT_SCALE = 1
+META_MUT_RATE = 48/48.
+META_MUT_SCALE = 4/48.
+
+TIME_TO_TRY_AGAIN = 12
+MAX_EVAL_TIME = 30
+
+SAVE_VXA_EVERY = 100
+SAVE_LINEAGES = False
+CHECKPOINT_EVERY = 100
+EXTRA_GENS = 0
