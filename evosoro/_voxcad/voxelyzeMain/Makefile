@@ -1,9 +1,11 @@
-LIBRARY_ROOT_PATH = $(HOME)
+# LIBRARY_ROOT_PATH = $(HOME)
+LIBRARY_ROOT_PATH = ..
 
 
 VOXELYZE_VERSION = voxelyze.0.9
 VOXELYZE_LIB_NAME = lib$(VOXELYZE_VERSION).a
-VOXELYZE_INC_PATH = $(LIBRARY_ROOT_PATH)/include/$(VOXELYZE_VERSION)/
+#VOXELYZE_INC_PATH = $(LIBRARY_ROOT_PATH)/include/$(VOXELYZE_VERSION)/
+VOXELYZE_INC_PATH = $(LIBRARY_ROOT_PATH)/Voxelyze
 
 LIBRARY_INCLUDES = \
 		-I$(VOXELYZE_INC_PATH)
@@ -37,8 +39,12 @@ CPPFLAGS= $(CFLAGS)
 
 
 LINK =  \
-	-L$(LIBRARY_ROOT_PATH)/lib -l$(VOXELYZE_VERSION) \
+	-L$(LIBRARY_ROOT_PATH)/Voxelyze -l$(VOXELYZE_VERSION) \
 	-lm -lstdc++
+#
+# LINK =  \
+# 	-L$(LIBRARY_ROOT_PATH)/lib -l$(VOXELYZE_VERSION) \
+# 	-lm -lstdc++
 
 
 
@@ -46,15 +52,20 @@ all: voxelyze
 
 
 
-voxelyze:	main.o $(LIBRARY_ROOT_PATH)/lib/lib$(VOXELYZE_VERSION).a
+# voxelyze:	main.o $(LIBRARY_ROOT_PATH)/lib/lib$(VOXELYZE_VERSION).a
+# 		$(CC) $(CFLAGS) main.o $(LINK) -o voxelyze
+voxelyze:	main.o $(LIBRARY_ROOT_PATH)/Voxelyze/lib$(VOXELYZE_VERSION).a
 		$(CC) $(CFLAGS) main.o $(LINK) -o voxelyze
 
 
 main.o:		main.cpp
 		$(CC) $(CFLAGS) -c main.cpp
 
+# oa_ex1:		main.o \
+# 		$(LIBRARY_ROOT_PATH)/lib/lib$(OPTALG_VERSION).a
+# 		$(CC) $(CFLAGS) main.o $(LINK) -o oa_ex1
 oa_ex1:		main.o \
-		$(LIBRARY_ROOT_PATH)/lib/lib$(OPTALG_VERSION).a
+		$(LIBRARY_ROOT_PATH)/Voxelyze/lib$(OPTALG_VERSION).a
 		$(CC) $(CFLAGS) main.o $(LINK) -o oa_ex1
 
 lib:

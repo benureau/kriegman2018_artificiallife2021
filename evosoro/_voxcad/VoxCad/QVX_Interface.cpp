@@ -19,6 +19,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "../Voxelyze/VX_MeshUtil.h"
 #include "Dlg_VideoCapture.h"
 
+#ifdef __APPLE__
+#include <unistd.h>
+#endif
+
 #ifdef linux
 #include <unistd.h>
 #endif

@@ -6,7 +6,7 @@
 #include <vector>
 #include <math.h>
 
-#include "GL/glu.h"
+#include <GL/glu.h>
 
 #include "../Voxelyze/Utils/GL_Utils.h"
 

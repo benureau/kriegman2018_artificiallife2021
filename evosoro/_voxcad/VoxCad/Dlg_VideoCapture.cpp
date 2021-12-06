@@ -13,6 +13,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include "Dlg_VideoCapture.h"
 #include <QFileDialog>
+#include <QtGui/QIntValidator>
+#include <QtGui/QDoubleValidator>
 
 
 
