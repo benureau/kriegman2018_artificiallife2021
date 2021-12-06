@@ -1,0 +1,8 @@
+*.pyc
+voxelyze
+!Voxelyze/
+*.d
+libvoxelyze*
+evosoro/_voxcad/Makefile
+*.pdf
+.DS_Store
