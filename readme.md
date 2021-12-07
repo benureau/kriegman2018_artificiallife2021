@@ -5,8 +5,9 @@ This repository contains the code used for the 3D voxel experiments presented in
 Morphological Development at the Evolutionary Timescale: Robotic Developmental Evolution<br>
 F. C. Y. Benureau, J. Tani<br>
 _Artificial Life Journal_ (in press) <br>
+currently available at: https://arxiv.org/abs/2010.14894
 
-It is a fork of repository [https://github.com/skriegman/how-devo-can-guide-evo], which was the code basis for the experiments in paper:
+It is a fork of repository https://github.com/skriegman/how-devo-can-guide-evo, which was the code basis for the experiments in the following paper:
 
 How morphological development can guide evolution<br>
 S. Kriegman, N. Cheney, J. Bongard<br>
@@ -18,10 +19,10 @@ If using this code for academic purposes, please cite both papers above.
 ### How to use
 
 The repository contains:
-- `evosoro/`: the code to run the simulations, generated the results, post-process them, and generate the figures.
+- `evosoro/`: the code to run the simulations, generate the results, post-process them, and generate the figures.
 - `post.tar.xz`: post-processed results, as obtained for the paper results. Should be unarchived into the directory `post`, so the plotting code can use it.
 - `figures/`: the figures that were used in the paper
-Updated version of this repository with bugfixes may exist at .... If you run into trouble, be sure to try the latest version.
+Updated version of this repository with bugfixes may exist at https://github.com/benureau/kriegman2018_artificiallife2021. If you run into trouble, be sure to try the latest version.
 
 
 ### To Regenerate the Figures from Saved Results
@@ -145,7 +146,7 @@ In the `evosoro/_voxcad/` directory, compile voxelyze and voxcad. You will need 
 ```bash
 ./rebuild_everything.sh
 ```
-This step might throw diverse errors, as the code is less and less uptodate with today's compiler. You can try creating an issue/PR if it is the case.
+This step might throw diverse errors, as the code is less and less up to date with today's compiler. You can try creating an issue/PR if it is the case.
 
 The experiments take a lot of time. We used a cluster based on Slurm (https://slurm.schedmd.com/documentation.html) to run them. If you have access to such a cluster, create a python virtual environment on it, install the requirements, recompile voxelyze/voxcad as above, and then modify the file `evosoro/slurm_batch.py` to match your configuration/hardware. Then, run:
 ```bash
@@ -157,9 +158,9 @@ python slurm_batch.py devoevo_mass50.py
 python slurm_batch.py devoevo_mass10_pop7.py
 python slurm_batch.py devoevo_mass10_pop15.py
 ```
-The script will write in the directory `results/`, so you might want to create a symbolic link to whichever partition of the folder storage your job can/should write to during their execution. Each slurm command above runs the experiment with seed 1 to 30 (submits 30 jobs).
+The script will write in the directory `results/`, so you might want to create a symbolic link to whichever partition of the folder storage your jobs should write to during their execution. Each slurm command above runs the experiment with seed 1 to 30 (submits 30 jobs).
 
-If you don't have access to a cluster, you can run each experiments one by one. For instance, running the experiment "devoevo_mass10" (developmental evolution with starting mass 10%) with seed 1 can be done with:
+If you don't have access to a cluster, you can run each experiment one by one. For instance, running the experiment "devoevo_mass10" (developmental evolution with starting mass 10%) with seed 1 can be done with:
 ```bash
 python devoevo_mass10.py 1
 ```
