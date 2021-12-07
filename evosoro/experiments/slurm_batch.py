@@ -75,7 +75,7 @@ if __name__ == '__main__':
                            queue_name=queue_name, venv_dir=VENV_DIRECTORY,
                            python_script=args.script)
 
-    print('submitting {} for seeds {}'.format(modname, array_index))
+    print(('submitting {} for seeds {}'.format(modname, array_index)))
 
     if not args.quiet:
         print(script)

@@ -23,7 +23,7 @@ def read_voxlyze_results(population, print_log, filename="softbotsOutput.xml"):
         exit(1)
 
     results = {rank: None for rank in range(len(population.objective_dict))}
-    for rank, details in population.objective_dict.items():
+    for rank, details in list(population.objective_dict.items()):
         this_file = open(filename)  # TODO: is there a way to just go back to the first line without reopening the file?
         tag = details["tag"]
         if tag is not None:
@@ -106,9 +106,9 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
                              "dY": 1 - (body_ylim[1]-body_ylim[0]+y_pad[0]+1)/length_workspace_xyz[1]}
 
     # update any env variables based on outputs instead of writing outputs in
-    for name, details in individual.genotype.to_phenotype_mapping.items():
+    for name, details in list(individual.genotype.to_phenotype_mapping.items()):
         if details["env_kws"] is not None:
-            for env_key, env_func in details["env_kws"].items():
+            for env_key, env_func in list(details["env_kws"].items()):
                 setattr(env, env_key, env_func(details["state"]))  # currently only used when evolving frequency
                 # print env_key, env_func(details["state"])
 
@@ -120,7 +120,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
         <Simulator>\n")
 
     # Sim
-    for name, tag in sim.new_param_tag_dict.items():
+    for name, tag in list(sim.new_param_tag_dict.items()):
         voxelyze_file.write(tag + str(getattr(sim, name)) + "</" + tag[1:] + "\n")
 
     voxelyze_file.write(
@@ -191,7 +191,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
     # Env
     voxelyze_file.write(
         "<Environment>\n")
-    for name, tag in env.new_param_tag_dict.items():
+    for name, tag in list(env.new_param_tag_dict.items()):
         voxelyze_file.write(tag + str(getattr(env, name)) + "</" + tag[1:] + "\n")
 
     if env.num_hurdles > 0:
@@ -564,7 +564,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
         <Y_Voxels>" + str(length_workspace_xyz[1]) + "</Y_Voxels>\n\
         <Z_Voxels>" + str(length_workspace_xyz[2]) + "</Z_Voxels>\n")
 
-    all_tags = [details["tag"] for name, details in individual.genotype.to_phenotype_mapping.items()]
+    all_tags = [details["tag"] for name, details in list(individual.genotype.to_phenotype_mapping.items())]
     if "<Data>" not in all_tags:  # not evolving topology -- fixed presence/absence of voxels
         voxelyze_file.write("<Data>\n")
         for z in range(*workspace_zlim):
@@ -660,7 +660,7 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
     # append custom parameters
     string_for_md5 = ""
 
-    for name, details in individual.genotype.to_phenotype_mapping.items():
+    for name, details in list(individual.genotype.to_phenotype_mapping.items()):
 
         # start tag
         if details["env_kws"] is None:
@@ -729,6 +729,6 @@ def write_voxelyze_file(sim, env, individual, run_directory, run_name):
     voxelyze_file.close()
 
     m = hashlib.md5()
-    m.update(string_for_md5)
+    m.update(string_for_md5.encode())
 
     return m.hexdigest()

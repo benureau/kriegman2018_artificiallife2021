@@ -6,7 +6,7 @@ rm -Rf ~/lib/libvoxelyze*
 qmake VoxCad.pro
 
 echo "Cleaning and rebuilding current directory"
-make clean
+# make clean
 make -j8
 
 if [ $? -ne 0 ]; then

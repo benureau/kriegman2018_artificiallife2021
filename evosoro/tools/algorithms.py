@@ -1,14 +1,14 @@
 import random
 import time
-import cPickle
+import pickle
 import numpy as np
 import subprocess as sub
 from functools import partial
 
-from evaluation import evaluate_all
-from selection import pareto_selection, pareto_tournament_selection
-from mutation import create_new_children_through_mutation, genome_wide_mutation
-from logging import PrintLog, initialize_folders, make_gen_directories, write_gen_stats
+from .evaluation import evaluate_all
+from .selection import pareto_selection, pareto_tournament_selection
+from .mutation import create_new_children_through_mutation, genome_wide_mutation
+from .logging import PrintLog, initialize_folders, make_gen_directories, write_gen_stats
 
 
 class Optimizer(object):
@@ -37,7 +37,7 @@ class Optimizer(object):
         numpy_random_state = np.random.get_state()
         data = [self, random_state, numpy_random_state]
         with open('{0}/pickledPops/Gen_{1}.pickle'.format(directory, gen), 'wb') as handle:
-            cPickle.dump(data, handle, protocol=cPickle.HIGHEST_PROTOCOL)
+            pickle.dump(data, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def run(self, *args, **kwargs):
         raise NotImplementedError
@@ -60,7 +60,7 @@ class PopulationBasedOptimizer(Optimizer):
         if self.num_env_cycles > 0:
             switch_every = self.max_gens / float(self.num_env_cycles)
             self.curr_env_idx = int(self.pop.gen / switch_every % len(self.env))
-            print " Using environment {0} of {1}".format(self.curr_env_idx+1, len(self.env))
+            print(" Using environment {0} of {1}".format(self.curr_env_idx+1, len(self.env)))
 
     def run(self, max_hours_runtime=29, max_gens=3000, num_random_individuals=1, num_env_cycles=0,
             directory="tests_data", name="TestRun",
@@ -122,7 +122,7 @@ class PopulationBasedOptimizer(Optimizer):
                     env.density = env.adult_density
                 else:
                     env.density += (env.adult_density - env.density)/float(env.adult_gen - self.pop.gen)
-                print('density: {:.3f}'.format(env.density))
+                print(('density: {:.3f}'.format(env.density)))
 
             # mutation
             print_log.message("Mutation starts")

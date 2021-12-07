@@ -14,7 +14,6 @@ from evosoro.softbot import Genotype, Phenotype, Population
 from evosoro.tools.algorithms import SetMutRateOptimization
 from evosoro.tools.checkpointing import continue_from_checkpoint
 
-
 from config import *
 
 

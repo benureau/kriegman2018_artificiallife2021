@@ -1,5 +1,5 @@
 from glob import glob
-import cPickle
+import pickle
 import time
 import ast
 import re
@@ -95,7 +95,7 @@ if not USE_PICKLE:
                                 s1_cube = np.resize(s1, (4, 4, 3))
                                 reversed_array1 = s1_cube[::-1, :, :]
                                 if not np.all(s1_cube[:int(SIZE[0]/2.0), :, :] == reversed_array1[:int(SIZE[0]/2.0), :, :]):
-                                    print "Oh shit"
+                                    print("Oh shit")
                                     raise AssertionError
 
                             if parent_id == -1:
@@ -115,18 +115,18 @@ if not USE_PICKLE:
         # print ancestor_dict[run]['window_Fitness'][-1] == pop[0].fitness
 
     with open('/home/sam/Projects/evosoro/evosoro/data_analysis/results/ancestor_dict.pickle', 'wb') as handle:
-        cPickle.dump(ancestor_dict, handle, protocol=cPickle.HIGHEST_PROTOCOL)
+        pickle.dump(ancestor_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     duration = time.time() - start_time
-    print "cpu time: {} mins".format(duration/60.)
+    print("cpu time: {} mins".format(duration/60.))
 
 else:
     with open('/home/sam/Projects/evosoro/evosoro/data_analysis/results/ancestor_dict.pickle', 'rb') as handle:
-        ancestor_dict = cPickle.load(handle)
+        ancestor_dict = pickle.load(handle)
 
 # PLOTTING
 
-max_ancestors = np.max([len(details['id']) for run, details in ancestor_dict.items()])
+max_ancestors = np.max([len(details['id']) for run, details in list(ancestor_dict.items())])
 
 fig = plt.figure(figsize=(20, 20))
 outer_grid = gridspec.GridSpec(3, 10, wspace=0.0, hspace=0.3)
@@ -154,9 +154,9 @@ for run in range(1, RUNS+1):
     axes1 = plt.subplot(inner_grid[1, inner_idx])
     axes2 = plt.subplot(inner_grid[2, inner_idx])
 
-    axes0.plot(range(max_ancestors), vol_data, color=sns.color_palette()[0], linewidth=3)
-    axes1.plot(range(max_ancestors), phase_data, color=sns.color_palette()[1], linewidth=3)
-    axes2.plot(range(max_ancestors), fit_data, color=sns.color_palette()[2], linewidth=3)
+    axes0.plot(list(range(max_ancestors)), vol_data, color=sns.color_palette()[0], linewidth=3)
+    axes1.plot(list(range(max_ancestors)), phase_data, color=sns.color_palette()[1], linewidth=3)
+    axes2.plot(list(range(max_ancestors)), fit_data, color=sns.color_palette()[2], linewidth=3)
 
     # for a in [axes0, axes1, axes2]:
     #     dashes = [5, 5, 5, 5]  # x points on, y off, z on, a off

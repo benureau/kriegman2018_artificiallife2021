@@ -112,7 +112,7 @@ def replace_text_in_file(filename, replacements_dict):
     lines = []
     with open(filename) as infile:
         for line in infile:
-            for original, target in replacements_dict.iteritems():
+            for original, target in replacements_dict.items():
                 line = line.replace(original, target)
             lines.append(line)
     with open(filename, 'w') as outfile:
@@ -306,7 +306,7 @@ def count_neighbors(output_state, mask=None):
         def mask(u): return np.greater(u, 0)
 
     presence = mask(output_state)
-    voxels = list(itertools.product(*[range(x) for x in output_state.shape]))
+    voxels = list(itertools.product(*[list(range(x)) for x in output_state.shape]))
     num_neighbors = [0 for _ in voxels]
 
     for idx, (x, y, z) in enumerate(voxels):

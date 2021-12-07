@@ -23,9 +23,9 @@ df.ix[df.fitness <= 0, 'fitness'] = 0
 df['fitness'] *= 0.25  # body lengths
 
 orig_len = len(df)
-print len(df[df.duplicated(subset=["id", "condition", "gen", "run"])]) == \
-      len(df[df.duplicated(subset=["id", "condition", "gen", "run", "fitness"])])
-print len(df[df.duplicated(subset=["id", "condition", "gen", "run"])]), " duplicates"
+print(len(df[df.duplicated(subset=["id", "condition", "gen", "run"])]) == \
+      len(df[df.duplicated(subset=["id", "condition", "gen", "run", "fitness"])]))
+print(len(df[df.duplicated(subset=["id", "condition", "gen", "run"])]), " duplicates")
 df = df.drop_duplicates(subset=["id", "condition", "gen", "run"], keep='last')
 
 b = sns.tsplot(data=df, value="fitness", condition="condition", unit="run", time="gen",
@@ -37,8 +37,8 @@ b = sns.tsplot(data=df, value="fitness", condition="condition", unit="run", time
 
 axes[0].set_ylim([0, 60])
 axes[0].set_xlim([-50, 10000])
-axes[0].set_xticks(range(0, 10001, 2000))
-axes[0].set_yticks(range(0, 61, 10))
+axes[0].set_xticks(list(range(0, 10001, 2000)))
+axes[0].set_yticks(list(range(0, 61, 10)))
 axes[0].set_ylabel("Body lengths traveled")
 axes[0].set_xlabel("Generation")
 axes[0].legend([mpatches.Patch(color=sns.color_palette()[i]) for i in range(2)], ['Evo', 'Evo-Devo'], loc=2)
@@ -136,7 +136,7 @@ mc = np.array(mc) / 4.
 fc = np.array(fc) / 4.
 
 orig_balls = orig >= 10
-print "orig balls: ", np.sum(orig_balls)
+print("orig balls: ", np.sum(orig_balls))
 no_m_balls = m < 10
 no_s_balls = s < 10
 no_f_balls = f < 10
@@ -147,7 +147,7 @@ no_fc_balls = fc < 16
 fitness = np.array([x[0] for x in [control, orig, s]])  # m, s, f, sc, mc, fc]])
 fitness = fitness.flatten()
 
-runs = np.array([range(1, RUNS+1) for x in [control, orig, s]])  # m, s, f, sc, mc, fc]])
+runs = np.array([list(range(1, RUNS+1)) for x in [control, orig, s]])  # m, s, f, sc, mc, fc]])
 runs.flatten()
 
 group = np.array([[i]*30 for i, n in enumerate(["Evo", "Evo-Devo", "birth"])])  # "mid", "birth", "death", "cmid", "cbirth", "cdeath"])])

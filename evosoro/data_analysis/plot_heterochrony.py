@@ -22,7 +22,7 @@ for run in range(1, RUNS+1):
         if xmax < this_len:
             xmax = this_len
 
-print np.median(lens)
+print(np.median(lens))
 
 discovery_time_begin = []
 discovery_time_end = []
@@ -91,7 +91,7 @@ time = np.array(discovery_time_begin+discovery_time_end)
 group = np.array([0]*len(discovery_time_begin) + [1]*len(discovery_time_end))
 df = pd.DataFrame({'time': time, 'Descendant': group})
 
-print np.median(discovery_time_begin)
+print(np.median(discovery_time_begin))
 
 g = sns.barplot(x='Descendant', y="time", data=df, capsize=0.1, errwidth=2.5, ax=ax[1], estimator=np.median, ci=95)
 ax[1].set_ylabel(r"Time before rolling")

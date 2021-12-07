@@ -114,7 +114,7 @@ for RUN in [7, 6]:
     evo_velocity_idx += [np.linspace(0, 11, len(velocities[RUN-1]))]
 
     V_MARKER = 1.7  # 1 body length per second
-    print V_MARKER
+    print(V_MARKER)
 
 #############################
 
@@ -147,14 +147,14 @@ axes[3, 0].set_ylabel("Current Length", fontsize=18)
 axes[2, 0].axhline(start_vol, color=color, linestyle='dashed', linewidth=1.75, alpha=0.8, zorder=0)
 axes[2, 0].set_xticklabels([])
 axes[2, 0].set_yticks([start_vol])
-axes[2, 0].set_yticklabels(['$\uparrow$\n$\ell_k$\n$\downarrow$'], fontsize=20)
+axes[2, 0].set_yticklabels(['$\\uparrow$\n$\ell_k$\n$\downarrow$'], fontsize=20)
 axes[2, 0].set_ylabel("Resting Length", fontsize=18)
 
 
 axes[1, 0].axhline(start_phase, color=color, linestyle='dashed', linewidth=1.75, alpha=0.8, zorder=0)
 axes[1, 0].set_xticklabels([])
 axes[1, 0].set_yticks([start_phase])
-axes[1, 0].set_yticklabels(['$\uparrow$\n$\mathregular{\phi}_k$\n$\downarrow$'], fontsize=20)
+axes[1, 0].set_yticklabels(['$\\uparrow$\n$\mathregular{\phi}_k$\n$\downarrow$'], fontsize=20)
 axes[1, 0].set_ylabel("Phase Offset", fontsize=18)
 
 
@@ -190,15 +190,15 @@ axes[2, 1].axhline(start_vol, color=color, linestyle='dashed', linewidth=1.75, a
 axes[2, 1].axhline(final_vol, color=color, linestyle='dashed', linewidth=1.75, alpha=0.8, zorder=0)
 axes[2, 1].set_xticklabels([])
 axes[2, 1].set_yticks([start_vol, final_vol])
-axes[2, 1].set_yticklabels(['$\uparrow$\n$\ell_k$\n$\downarrow$', '$\uparrow$\n$\ell_k^*$\n$\downarrow$'], fontsize=20)
+axes[2, 1].set_yticklabels(['$\\uparrow$\n$\ell_k$\n$\downarrow$', '$\\uparrow$\n$\ell_k^*$\n$\downarrow$'], fontsize=20)
 
 
 axes[1, 1].axhline(start_phase, color=color, linestyle='dashed', linewidth=1.75, alpha=0.8, zorder=0)
 axes[1, 1].axhline(final_phase, color=color, linestyle='dashed', linewidth=1.75, alpha=0.8, zorder=0)
 axes[1, 1].set_xticklabels([])
 axes[1, 1].set_yticks([start_phase, final_phase])
-axes[1, 1].set_yticklabels(['$\uparrow$\n$\mathregular{\phi}_k$\n$\downarrow$',
-                            '$\uparrow$\n$\mathregular{\phi}^*_k$\n$\downarrow$'], fontsize=20)
+axes[1, 1].set_yticklabels(['$\\uparrow$\n$\mathregular{\phi}_k$\n$\downarrow$',
+                            '$\\uparrow$\n$\mathregular{\phi}^*_k$\n$\downarrow$'], fontsize=20)
 
 
 axes[0, 1].axhline(5, color=color, linestyle='dashed', linewidth=1.75, alpha=0.8, zorder=0)

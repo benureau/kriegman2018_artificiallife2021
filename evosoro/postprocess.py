@@ -48,7 +48,7 @@ def compress_seed_best(exp_name, seed_index):
     save_path = POST_DIR / exp_name / seed_name / 'fitness.feather'.format(seed_index)
     save_path.parent.mkdir(parents=True, exist_ok=True)
     frame.to_feather(save_path)
-    print('created {}'.format(save_path))
+    print(('created {}'.format(save_path)))
 
 
 def compress_seed_best_vxa(exp_name, seed_index):
@@ -59,7 +59,7 @@ def compress_seed_best_vxa(exp_name, seed_index):
     dest_path = POST_DIR / exp_name / seed_name
     dest_path.mkdir(parents=True, exist_ok=True)
     shutil.move(name, dest_path)
-    print('created {}'.format(dest_path / Path(name).name))
+    print(('created {}'.format(dest_path / Path(name).name)))
 
 
 def compress_seed_gen(exp_name, seed_index):
@@ -75,7 +75,7 @@ def compress_seed_gen(exp_name, seed_index):
     # save_path = POST_DIR / exp_name / 'seed{}.feather'.format(seed_index)
     # save_path.parent.mkdir(parents=True, exist_ok=True)
     full_data.to_feather(save_path)
-    print('saved {}'.format(save_path))
+    print(('saved {}'.format(save_path)))
 
 
 def small_txt_files(exp_name, seed_index):

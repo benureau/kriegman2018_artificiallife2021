@@ -36,11 +36,11 @@ class PrintLog(object):
 
     def message(self, content, timer_name=None, reset=True):
         if timer_name is None:
-            print(time_stamp() + ' ' + content)
+            print((time_stamp() + ' ' + content))
         else:
             s = self.seconds_from(timer_name)
             m, h = s / 60.0, s / 3600.0
-            print(time_stamp() + ' ' + content + ' \t (time from ' + timer_name + ': %0.2fs %0.2fm %0.2fh)' % (s, m, h))
+            print((time_stamp() + ' ' + content + ' \t (time from ' + timer_name + ': %0.2fs %0.2fm %0.2fh)' % (s, m, h)))
             if reset:
                 self.reset_timer(timer_name)
         sys.stdout.flush()
@@ -68,7 +68,7 @@ def make_header(population, path):
     output_names = ind.genotype.all_networks_outputs
     output_names.sort()
     # for name in output_names:
-    for name, details in ind.genotype.to_phenotype_mapping.items():
+    for name, details in list(ind.genotype.to_phenotype_mapping.items()):
         # details = ind.genotype.to_phenotype_mapping[name]
         if details["logging_stats"] is not None:
             header_string += "\t\t" + name + "_different_from_parent"
@@ -110,7 +110,7 @@ def record_individuals_data(pop, path, num_inds_to_save=None, print_to_terminal=
         header_string += "\t\tparent_id"
         header_string += "\t\tvariation_type"
 
-        print "\n"+header_string
+        print("\n"+header_string)
 
     output_names = pop[0].genotype.all_networks_outputs
     output_names.sort()
@@ -136,7 +136,7 @@ def record_individuals_data(pop, path, num_inds_to_save=None, print_to_terminal=
         # network outputs
         # for name in output_names:
         #     details = ind.genotype.to_phenotype_mapping[name]
-        for name, details in ind.genotype.to_phenotype_mapping.items():
+        for name, details in list(ind.genotype.to_phenotype_mapping.items()):
             if details["logging_stats"] is not None:
                 for network, parent_network in zip(ind.genotype, ind.parent_genotype):
                     if name in network.output_node_names:
@@ -204,16 +204,16 @@ def record_individuals_data(pop, path, num_inds_to_save=None, print_to_terminal=
                              objectives_string + "\n")
 
         if print_to_terminal:
-            print("{:5d}\t".format(int(pop.gen)) +
+            print(("{:5d}\t".format(int(pop.gen)) +
                   "{:5d}\t".format(int(ind.id)) +
                   "{:5d}\t".format(int(len(ind.dominated_by))) +
                   objectives_string_print +
                   "{:5d}\t\t".format(int(ind.parent_id)) +
-                  ind.variation_type)
+                  ind.variation_type))
 
         n += 1
     if print_to_terminal:
-        print
+        print()
 
     recording_file.close()
 
@@ -263,11 +263,11 @@ def initialize_folders(population, run_directory, run_name, save_networks, save_
 
 def make_gen_directories(population, run_directory, save_vxa_every, save_networks):
 
-    print "\n\n"
-    print "----------------------------------"
-    print "---------- GENERATION", population.gen, "----------"
-    print "----------------------------------"
-    print "\n"
+    print("\n\n")
+    print("----------------------------------")
+    print("---------- GENERATION", population.gen, "----------")
+    print("----------------------------------")
+    print("\n")
 
     if population.gen % save_vxa_every == 0 and save_vxa_every > 0:
         sub.call("mkdir " + run_directory + "/Gen_%04i" % population.gen, shell=True)
@@ -310,10 +310,10 @@ def write_gen_individuals_data(population, run_directory, num_inds_to_save):
 
 def remove_old_lineages(population, run_directory):
     population.update_lineages()
-    print " Length of best lineage: {}".format(len(population.lineage_dict[population[0].id]))
+    print(" Length of best lineage: {}".format(len(population.lineage_dict[population[0].id])))
 
     ancestors_ids = [ind.id for ind in population]  # include current generation
-    for child, lineage in population.lineage_dict.items():
+    for child, lineage in list(population.lineage_dict.items()):
         for parent in lineage:
             if parent not in ancestors_ids:
                 ancestors_ids += [parent]

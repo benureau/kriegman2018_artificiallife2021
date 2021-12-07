@@ -1,5 +1,5 @@
 from glob import glob
-import cPickle
+import pickle
 import time
 import ast
 import re
@@ -29,14 +29,14 @@ sns.set_palette(list(reversed(colors)))
 start_time = time.time()
 
 for mut_rate in LAMBDAS:
-    print "Using mut_rate: {}".format(mut_rate)
+    print("Using mut_rate: {}".format(mut_rate))
     if not USE_PICKLE:
         overall_window_dict = {"gen": [], "id": [], "fit": [], "window_Morphology": [], "window_Controller": []}
 
         MyGenotype = Genotype
 
         for run in range(1, RUNS+1):
-            print "lamb {0}: run {1} of {2}".format(mut_rate, run, RUNS)
+            print("lamb {0}: run {1} of {2}".format(mut_rate, run, RUNS))
             run_directory = "/home/sam/Archive/skriegma/AFPO_Both_{0}/run_{1}/".format(mut_rate, run)
             all_gen_files = glob(run_directory + "allIndividualsData/Gen_*.txt")
 
@@ -83,19 +83,19 @@ for mut_rate in LAMBDAS:
 
                         n += 1
 
-        print "PICKLING..."
+        print("PICKLING...")
         with open('/home/sam/Projects/evosoro/evosoro/data_analysis/results/overall_window_dict_{}.pickle'.format(mut_rate), 'wb') as handle:
-            cPickle.dump(overall_window_dict, handle, protocol=cPickle.HIGHEST_PROTOCOL)
+            pickle.dump(overall_window_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
         duration = time.time() - start_time
-        print "{0}  cpu time: {1} mins".format(mut_rate, duration/60.)
+        print("{0}  cpu time: {1} mins".format(mut_rate, duration/60.))
 
     else:
         with open('/home/sam/Projects/evosoro/evosoro/data_analysis/results/overall_window_dict_{}.pickle'.format(mut_rate), 'rb') as handle:
-            overall_window_dict = cPickle.load(handle)
+            overall_window_dict = pickle.load(handle)
 
     # PLOTTING
-    print "PLOTTING..."
+    print("PLOTTING...")
 
     title = "$\lambda=${}/48".format(mut_rate)
     ball_idx = np.array(overall_window_dict['fit']) > MIN_BALL_FIT
@@ -167,7 +167,7 @@ for mut_rate in LAMBDAS:
     axes.xaxis.set_ticklabels(np.arange(0, 1.01, 1/5.), fontsize=15)
     axes.yaxis.set_ticklabels(np.arange(0, 1.01, 1/5.), fontsize=15)
 
-    cb = plt.colorbar(ticks=range(MIN_BALL_FIT+1, COLOR_LIM+1, 10), boundaries=range(MIN_BALL_FIT, COLOR_LIM+1))
+    cb = plt.colorbar(ticks=list(range(MIN_BALL_FIT+1, COLOR_LIM+1, 10)), boundaries=list(range(MIN_BALL_FIT, COLOR_LIM+1)))
     cb.set_clim(MIN_BALL_FIT, COLOR_LIM)
     cb.ax.tick_params(labelsize=15)
 

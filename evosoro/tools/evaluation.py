@@ -3,7 +3,7 @@ import random
 import numpy as np
 import subprocess as sub
 
-from read_write_voxelyze import read_voxlyze_results, write_voxelyze_file
+from .read_write_voxelyze import read_voxlyze_results, write_voxelyze_file
 
 
 # TODO: make eval times relative to the number of simulated voxels
@@ -64,7 +64,7 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
 
         # don't evaluate if invalid
         if not ind.phenotype.is_valid():
-            for rank, goal in pop.objective_dict.items():
+            for rank, goal in list(pop.objective_dict.items()):
                 if goal["name"] != "age":
                     setattr(ind, goal["name"], goal["worst_value"])
             print_log.message("Skipping invalid individual")
@@ -72,7 +72,7 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
         # don't evaluate if identical phenotype has already been evaluated
         elif (((not hasattr(env, 'adult_gen')) or pop.gen > env.adult_gen) and
               pop.learning_trials <= 1 and env.actuation_variance == 0 and ind.md5 in pop.already_evaluated):
-            for rank, goal in pop.objective_dict.items():
+            for rank, goal in list(pop.objective_dict.items()):
                 if goal["tag"] is not None:
                     setattr(ind, goal["name"], pop.already_evaluated[ind.md5][rank])
             # print_log.message("Individual already evaluated:  cached fitness is {}".format(ind.fitness))
@@ -121,7 +121,7 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
             # try to redo any simulations that crashed
             redo_attempts += 1
             non_analyzed_ids = [idx for idx in ids_to_analyze if idx not in already_analyzed_ids]
-            print "Rerunning voxelyze for: ", non_analyzed_ids
+            print("Rerunning voxelyze for: ", non_analyzed_ids)
             for idx in non_analyzed_ids:
                 sub.Popen("./voxelyze  -f " + run_directory + "/voxelyzeFiles/" + run_name + "--id_%05i.vxa" % idx,
                           shell=True)
@@ -133,7 +133,7 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
                 all_done = False
 
         # check for any fitness files that are present
-        ls_check = sub.check_output(["ls", run_directory + "/fitnessFiles/"])
+        ls_check = sub.check_output(["ls", run_directory + "/fitnessFiles/"]).decode()
         # duplicated ids issue: may be due to entering here two times for the same fitness file found in the directory.
 
         if ls_check:
@@ -168,7 +168,7 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
                     # assign the values to the corresponding individual
                     for ind in pop:
                         if ind.id == this_id:
-                            for rank, details in pop.objective_dict.items():
+                            for rank, details in list(pop.objective_dict.items()):
                                 if objective_values_dict[rank] is not None:
                                     setattr(ind, details["name"], objective_values_dict[rank])
                                 else:
@@ -179,14 +179,14 @@ def evaluate_all(sim, env, pop, print_log, save_vxa_every, run_directory, run_na
                                     #             # apply the specified function to the specified output node
                                     #             state = network.graph.node[name]["state"]
                                     #             setattr(ind, details["name"], details["node_func"](state))
-                                    for name, details_phenotype in ind.genotype.to_phenotype_mapping.items():
+                                    for name, details_phenotype in list(ind.genotype.to_phenotype_mapping.items()):
                                         if name == details["output_node_name"]:
                                             state = details_phenotype["state"]
                                             setattr(ind, details["name"], details["node_func"](state))
 
                             pop.already_evaluated[ind.md5] = [getattr(ind, details["name"])
                                                               for rank, details in
-                                                              pop.objective_dict.items()]
+                                                              list(pop.objective_dict.items())]
                             pop.all_evaluated_individuals_ids += [this_id]
 
                             # update the run statistics and file management

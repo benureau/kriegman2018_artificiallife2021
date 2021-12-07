@@ -82,7 +82,7 @@ def create_new_children_through_mutation(pop, print_log, new_children=None, muta
 
                 selected_networks = np.arange(len(clone.genotype))[selection].tolist()
 
-                for rank, goal in pop.objective_dict.items():
+                for rank, goal in list(pop.objective_dict.items()):
                     setattr(clone, "parent_{}".format(goal["name"]), getattr(clone, goal["name"]))
 
                 clone.parent_genotype = ind.genotype
@@ -95,7 +95,7 @@ def create_new_children_through_mutation(pop, print_log, new_children=None, muta
                 #     for node_name in network.graph:
                 #         network.graph.node[node_name]["old_state"] = network.graph.node[node_name]["state"]
 
-                for name, details in clone.genotype.to_phenotype_mapping.items():
+                for name, details in list(clone.genotype.to_phenotype_mapping.items()):
                     details["old_state"] = copy.deepcopy(details["state"])
 
                 # old_individual = copy.deepcopy(clone)
@@ -113,7 +113,7 @@ def create_new_children_through_mutation(pop, print_log, new_children=None, muta
                                 # using CPPNs
                                 mut_func_args = inspect.getargspec(candidate.genotype[selected_net_idx].mutate)
                                 mut_func_args = [0 for _ in range(1, len(mut_func_args.args))]
-                                choice = random.choice(range(len(mut_func_args)))
+                                choice = random.choice(list(range(len(mut_func_args))))
                                 mut_func_args[choice] = 1
                                 variation_type, variation_degree = candidate.genotype[selected_net_idx].mutate(*mut_func_args)
                             else:
@@ -141,7 +141,7 @@ def create_new_children_through_mutation(pop, print_log, new_children=None, muta
                             clone = copy.deepcopy(candidate)  # SAM: ensures change is made to every net
                             break
                         else:
-                            for name, details in candidate.genotype.to_phenotype_mapping.items():
+                            for name, details in list(candidate.genotype.to_phenotype_mapping.items()):
                                 new = details["state"]
                                 old = details["old_state"]
                                 changes = np.array(new != old, dtype=np.bool)
@@ -169,7 +169,7 @@ def create_new_children_through_mutation(pop, print_log, new_children=None, muta
                             clone.genotype[selected_net_idx].graph.node[output_node]["old_state"] = ""
 
                 # reset all objectives we calculate in VoxCad to unevaluated values
-                for rank, goal in pop.objective_dict.items():
+                for rank, goal in list(pop.objective_dict.items()):
                     if goal["tag"] is not None:
                         setattr(clone, goal["name"], goal["worst_value"])
 

@@ -151,8 +151,8 @@ if not os.path.isfile("./" + RUN_DIR + "/pickledPops/Gen_0.pickle"):
 
     my_pop = Population(my_objective_dict, MyGenotype, Phenotype, pop_size=POP_SIZE)
 
-    names = [k for k, v in NET_DICT.items()]
-    nets = [v for k, v in NET_DICT.items()]
+    names = [k for k, v in list(NET_DICT.items())]
+    nets = [v for k, v in list(NET_DICT.items())]
     my_pop.replace_ind_networks(names, nets)
 
     my_optimization = SetMutRateOptimization(my_sim, my_env, my_pop, MUT_NET_PROB_DIST)

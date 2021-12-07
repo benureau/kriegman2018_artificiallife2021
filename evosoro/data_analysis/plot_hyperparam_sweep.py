@@ -20,7 +20,7 @@ f, axes = plt.subplots(ROWS, COLS, figsize=(20, 10))
 NAMES = ["1", "2", "4", "8", "16", "24", "32", "48"]
 
 for ax, NAME in enumerate(NAMES):
-    print "NAME ", NAME
+    print("NAME ", NAME)
     row, col = np.unravel_index(ax, (ROWS, COLS))
 
     df = pd.read_csv('results/best_results_co_opt_{}.csv'.format(NAME), low_memory=False)
@@ -30,8 +30,8 @@ for ax, NAME in enumerate(NAMES):
     df['fitness'] *= 0.25  # body lengths
 
     orig_len = len(df)
-    print len(df[df.duplicated(subset=["condition", "gen", "run"])]) == len(df[df.duplicated(subset=["id", "condition", "gen", "run", "fitness"])])
-    print len(df[df.duplicated(subset=["condition", "gen", "run"])]), " duplicates"
+    print(len(df[df.duplicated(subset=["condition", "gen", "run"])]) == len(df[df.duplicated(subset=["id", "condition", "gen", "run", "fitness"])]))
+    print(len(df[df.duplicated(subset=["condition", "gen", "run"])]), " duplicates")
     df = df.drop_duplicates(subset=["condition", "gen", "run"], keep='last')
 
     a = sns.tsplot(data=df, value="fitness", condition="condition", unit="run", time="gen", ax=axes[row, col],
@@ -52,8 +52,8 @@ for ax, NAME in enumerate(NAMES):
     axes[row, col].set_xlabel("")
     axes[row, col].set_ylim([0, 80])
     axes[row, col].set_xlim([-50, 10000+50])
-    axes[row, col].set_xticks(range(1000, 10000, 1000))
-    axes[row, col].set_yticks(range(10, 80, 10))
+    axes[row, col].set_xticks(list(range(1000, 10000, 1000)))
+    axes[row, col].set_yticks(list(range(10, 80, 10)))
     if row == ROWS-1:
         axes[row, col].xaxis.set_ticklabels([1000, "", 3000, "", 5000, "", 7000, "", 9000, ""], fontsize=17)
     else:

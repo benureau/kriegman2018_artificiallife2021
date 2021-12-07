@@ -1,5 +1,5 @@
 from glob import glob
-import cPickle
+import pickle
 import time
 import numpy as np
 import pandas as pd
@@ -47,7 +47,7 @@ for MORPHO in [0, 1]:
                 exp_dir = path+"Random_{0}_Walks{1}".format(exp, "_Morpho" if MORPHO else "")
 
                 for run in range(1, RUNS+1):
-                    print "getting run: {}".format(run)
+                    print("getting run: {}".format(run))
                     ancestor_dict[exp][run] = {}
 
                     for idx in range(POP_SIZE):
@@ -94,14 +94,14 @@ for MORPHO in [0, 1]:
                         ancestor_dict[exp][run][idx]['Sorted_Fitness'] = [fit for (ids, fit) in sorted(zip(run_ids, run_fit))]
 
             with open('/home/sam/Projects/evosoro/evosoro/data_analysis/results/random_walks_dict{}.pickle'.format("_morpho" if MORPHO else ""), 'wb') as handle:
-                cPickle.dump(ancestor_dict, handle, protocol=cPickle.HIGHEST_PROTOCOL)
+                pickle.dump(ancestor_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
             duration = time.time() - start_time
-            print "cpu time: {} mins".format(duration/60.)
+            print("cpu time: {} mins".format(duration/60.))
 
         else:
             with open('/home/sam/Projects/evosoro/evosoro/data_analysis/results/random_walks_dict{}.pickle'.format("_morpho" if MORPHO else ""), 'rb') as handle:
-                ancestor_dict = cPickle.load(handle)
+                ancestor_dict = pickle.load(handle)
 
         if t == 0:
             Evo = {k: [] for k in range(POP_SIZE)}
@@ -121,8 +121,8 @@ for MORPHO in [0, 1]:
 
             # Evo = [np.median(v, 0) for k, v in Evo.items() if len(v) > 0]
             # EvoDevo = [np.median(v, 0) for k, v in EvoDevo.items() if len(v) > 0]
-            Evo = [v for k, v in Evo.items() if len(v) > 0]
-            EvoDevo = [v for k, v in EvoDevo.items() if len(v) > 0]
+            Evo = [v for k, v in list(Evo.items()) if len(v) > 0]
+            EvoDevo = [v for k, v in list(EvoDevo.items()) if len(v) > 0]
 
             EvoDevo, Evo = np.array(EvoDevo), np.array(Evo)
             EvoDevo, Evo = EvoDevo[:, ::-1], Evo[:, ::-1]
@@ -139,7 +139,7 @@ for MORPHO in [0, 1]:
             run = np.repeat(run, 1001)
             run = np.tile(run, 2)
 
-            print len(delta), len(condition), len(run), len(step)
+            print(len(delta), len(condition), len(run), len(step))
 
             df = pd.DataFrame({'run': run, 'step': step, 'delta': delta, 'condition': condition})
 
@@ -168,8 +168,8 @@ for MORPHO in [0, 1]:
 
             # Slow = [np.median(v, 0) for k, v in Slow.items() if len(v) > 0]
             # Fast = [np.median(v, 0) for k, v in Fast.items() if len(v) > 0]
-            Slow = [v for k, v in Slow.items() if len(v) > 0]
-            Fast = [v for k, v in Fast.items() if len(v) > 0]
+            Slow = [v for k, v in list(Slow.items()) if len(v) > 0]
+            Fast = [v for k, v in list(Fast.items()) if len(v) > 0]
 
             Fast, Slow = np.array(Fast), np.array(Slow)
             Fast, Slow = Fast[::-1], Slow[::-1]
@@ -185,12 +185,12 @@ for MORPHO in [0, 1]:
             run_b = [6, 8, 16, 17, 18]
             runf_b = [r for r in range(1, 31, 1) if r not in run_b]
 
-            run_b = np.repeat(range(len(run_b*RUNS)), 1001)
-            runf_b = np.repeat(range(len(run_b*RUNS), len(run_b*RUNS) + len(runf_b*RUNS)), 1001)
+            run_b = np.repeat(list(range(len(run_b*RUNS))), 1001)
+            runf_b = np.repeat(list(range(len(run_b*RUNS), len(run_b*RUNS) + len(runf_b*RUNS))), 1001)
 
             run_b = np.concatenate([run_b, runf_b])
 
-            print len(delta_b), len(condition_b), len(run_b), len(step_b)
+            print(len(delta_b), len(condition_b), len(run_b), len(step_b))
 
             df_b = pd.DataFrame({'run': run_b, 'step': step_b, 'delta': delta_b, 'condition': condition_b})
 

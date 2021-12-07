@@ -88,7 +88,7 @@ class Genotype(object):
                     else:
                         self.to_phenotype_mapping[name]["state"] = network.values
 
-        for name, details in self.to_phenotype_mapping.items():
+        for name, details in list(self.to_phenotype_mapping.items()):
             # details["old_state"] = copy.deepcopy(details["state"])
             # SAM: moved this to mutation.py prior to mutation attempts loop
             if name not in self.all_networks_outputs:
@@ -109,7 +109,7 @@ class Genotype(object):
         #                 for dependency_name in details["dependency_order"]:
         #                     self.to_phenotype_mapping.dependencies[dependency_name]["state"] = None
 
-        for name, details in self.to_phenotype_mapping.items():
+        for name, details in list(self.to_phenotype_mapping.items()):
             if details["dependency_order"] is not None:
                 details["state"] = details["func"](self)
 
@@ -368,7 +368,7 @@ class SoftBot(object):
 
         # set the objectives as attributes of self (and parent)
         self.objective_dict = objective_dict
-        for rank, details in objective_dict.items():
+        for rank, details in list(objective_dict.items()):
             if details["name"] != "age":
                 setattr(self, details["name"], details["worst_value"])
             setattr(self, "parent_{}".format(details["name"]), details["worst_value"])
@@ -538,19 +538,19 @@ class Population(object):
             elif ind.fitness > learning_trial_dict[ind.learning_id].fitness:
                 learning_trial_dict[ind.learning_id] = ind
 
-        self.individuals = [ind for key, ind in learning_trial_dict.items()]
+        self.individuals = [ind for key, ind in list(learning_trial_dict.items())]
 
     def sort_by_objectives(self):
         """Sorts the population multiple times by each objective, from least important to most important."""
         for ind in self:
             if math.isnan(ind.fitness):
                 ind.fitness = self.objective_dict[0]["worst_value"]
-                print "FITNESS WAS NAN, RESETTING IT TO:", self.objective_dict[0]["worst_value"]
+                print("FITNESS WAS NAN, RESETTING IT TO:", self.objective_dict[0]["worst_value"])
 
         self.sort(key="id", reverse=True)  # (max) promotes neutral mutation
         self.sort(key="age", reverse=False)  # (min) protects younger, undeveloped solutions
 
-        for rank in reversed(range(len(self.objective_dict))):
+        for rank in reversed(list(range(len(self.objective_dict)))):
             if not self.objective_dict[rank]["logging_only"]:
                 goal = self.objective_dict[rank]
                 self.sort(key=goal["name"], reverse=goal["maximize"])
@@ -569,7 +569,7 @@ class Population(object):
         """
         # losses = []  # 2 dominates 1
         wins = []  # 1 dominates 2
-        for rank in reversed(range(len(self.objective_dict))):
+        for rank in reversed(list(range(len(self.objective_dict)))):
             if not self.objective_dict[rank]["logging_only"]:
                 goal = self.objective_dict[rank]
                 # losses += [dominates(ind2, ind1, goal["name"], goal["maximize"])]  # ind2 dominates ind1?

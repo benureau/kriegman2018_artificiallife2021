@@ -177,7 +177,7 @@ class ObjectiveDict(dict):
         # if fitness is not added first, shift every other objective "down" in importance
         if name == "fitness" and self.max_rank > 0:
             curr_rank = 0  # change the key to rank 0
-            for rank in reversed(range(len(self))):
+            for rank in reversed(list(range(len(self)))):
                 self[rank+1] = self[rank]
 
         super(ObjectiveDict, self).__setitem__(curr_rank, {"name": name,
