@@ -28,7 +28,7 @@ if __name__ == '__main__':
         SEED = int(os.environ['SLURM_ARRAY_TASK_ID'])
     except KeyError:
         SEED = int(sys.argv[1])
-    RUN_DIR = os.path.join(os.path.dirname(__file__), "../../../results/run_{}/seed{}".format(RUN_NAME.lower(), SEED))
+    RUN_DIR = os.path.join(os.path.dirname(__file__), "../../results/run_{}/seed{}".format(RUN_NAME.lower(), SEED))
     if not os.path.exists(RUN_DIR):
         os.makedirs(RUN_DIR)
 
