@@ -6,3 +6,6 @@ matplotlib
 ipywidgets
 bokeh
 selenium
+pyarrow
+tqdm
+rich
