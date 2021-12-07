@@ -9,3 +9,4 @@ selenium
 pyarrow
 tqdm
 rich
+toml

@@ -4,18 +4,9 @@ import pickle
 from pathlib import Path
 from collections import OrderedDict
 
-import xmltodict
 import numpy as np
 import pandas as pd
 
-
-# path = '/Users/fcyb/Data/local/kriegman2018/results/run_devoevo_mass10/seed1/bestSoFar/fitOnly/devoevo_mass10--Gen_0002--fit_78.93030000--id_00013.vxa'
-# with open(path, 'r') as fd:
-#     d = xmltodict.parse(fd.read())
-
-# print(d)
-# with open(path + '.pickle', 'wb') as fd:
-#     pickle.dump(d, fd)
 
 
 keys = OrderedDict({'gen'      : np.int32,

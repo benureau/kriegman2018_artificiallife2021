@@ -24,10 +24,7 @@ EXT = '.pdf'
 
 
 # colors of the different graph lines
-# '#49006a', '#7a0177', '#e457a0'
 devoevo_color = ('#49006a', '#7a0177', '#e457a0')
-# control     = ('#386fa4', '#59A5d8', '#84d2f6')
-# development = ('#49006a', '#7a0177', '#e457a0')
 
 colors = {'evo'           : ('#386fa4', '#59A5d8', '#84d2f6'),
           'evodevo'       : ('#CB8260', '#EDCBB8', '#EDCBB8'),
@@ -38,53 +35,6 @@ colors = {'evo'           : ('#386fa4', '#59A5d8', '#84d2f6'),
           'devoevo_mass10_pop7': devoevo_color,
           'devoevo_mass10_pop15': devoevo_color,
           }
-
-
-# def gather_fitness(name, seed):
-#     """Get the fitness of the champions of the each generation of a run
-
-#     Use cached data if available. If not, cache it for future executions of the script.
-#     """
-#     data = {}
-
-#     # fitness_pickle = os.path.join(POST_DIR, 'run_{}/seed{}_fitness.pickle'.format(name, seed))
-#     # pickle_len = 0
-#     # if False and os.path.exists(fitness_pickle):
-#     #     with open(fitness_pickle, 'rb') as fd:
-#     #         _, seed, data = pickle.load(fd)
-#     #         pickle_len = len(data)
-#     #         if len(data) == 10001:
-#     #             #print('{}:{}: FULL'.format(name, seed))
-#     #             return name, seed, data
-
-#     filepattern = os.path.join(RESULTS_DIR, 'run_{}/seed{}'.format(name, seed),
-#                                'allIndividualsData', 'Gen_*.txt')
-#     for filename in glob.glob(filepattern):
-#         # print(os.path.basename(filename))
-#         index = int(os.path.basename(filename)[4:-4])
-#         if index not in data:
-#             fits = get_fitnesses(filename)
-#             data[index] = max(fits)
-
-#     if gather_max_fitness(name, seed) == data:
-#         print("FITNESS ARE THE SAME")
-#     else:
-#         assert False
-
-#     # if len(data) > pickle_len:
-#     print('{}:{}: {} gens (+{})'.format(name, seed, len(data), len(data) - pickle_len))
-
-#     if not os.path.exists(os.path.dirname(fitness_pickle)):
-#         os.makedirs(os.path.dirname(fitness_pickle))
-#     with open(fitness_pickle, 'wb') as fd:
-#         pickle.dump((name, seed, data), fd)
-
-#     return name, seed, data
-
-# def get_fitnesses(filename):
-#     """Get fitness of the champion out of the CSV of a generation"""
-#     df = pd.read_csv(filename,  sep='\t+', engine='python')
-#     return df['fitness'].to_numpy()
 
 
 def load_seed_fitness(name, seed):
@@ -111,15 +61,6 @@ def bootstrapped_medians(data, nboot=5000, q=95, stat=np.median):
         col_indexes = np.random.randint(0, data.shape[1], size=data.shape)
         values.append(stat(data[row_indexes,col_indexes], axis=1))
     return np.stack([np.percentile(values, 100-q, axis=0), stat(data, axis=1), np.percentile(values, q, axis=0)], axis=1)
-
-# def bootstrapped_medians(data, nboot=5000, q=95, stat=np.median):
-#     sample_indexes = np.array(range(data.shape[1]))
-#     values = []
-#     for _ in tqdm.tqdm(range(nboot), desc='bootstrapping medians...'):
-#         sample = np.random.choice(sample_indexes, len(sample_indexes))
-#         values.append(stat(data[:,sample], axis=1))
-#     return np.stack([np.percentile(values, 100-q, axis=0), stat(data, axis=1), np.percentile(values, q, axis=0)], axis=1)
-
 
 def exp_medians(name, seeds, nboot=20000, q=95):
     """Load or compute the medians of a fitness's experiment."""
@@ -309,11 +250,15 @@ if __name__ == '__main__':
                                   nboot=nboot, y_ticks_displayed=[0, 30, 65])
 
     for mass, pop_devoevo, dashed in [(10, 7, ['evo', 'evodevo_pop15']), (10, 15, ['evo', 'evodevo'])]:
-
         exps = [(name, seed_range) for name in ['evo', 'evodevo', 'evodevo_pop15', 'devoevo_mass{}_pop{}'.format(mass, pop_devoevo)]]
-        generate_traj_graph(exps, 'figs3_mass{}_pop{}_traj'.format(mass, pop_devoevo), y_max=110)
         generate_median_graph(exps, 'figs3_mass{}_pop{}_median_{}'.format(mass, pop_devoevo, nboot), nboot=nboot,
                               y_ticks_displayed=classes, y_max=110, dashed=dashed)
+
+    exps = [(name, seed_range) for name in ['evodevo_pop15', 'devoevo_mass10_pop15']]
+    generate_traj_graph(exps, 'figs3_mass10_pop15_traj', y_max=110)
+
+    exps = [(name, seed_range) for name in ['evodevo', 'devoevo_mass10_pop7']]
+    generate_traj_graph(exps, 'figs3_mass10_pop7_traj', y_max=110)
 
     print('')
     epoch_to_fitness30(all_exps)

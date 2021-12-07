@@ -48,10 +48,10 @@ saved ../figures/figs1_mass25_traj.pdf
 saved ../figures/fig8_mass25_median_20000.pdf
 saved ../figures/figs2_mass50_traj.pdf
 saved ../figures/figs2_mass50_median_20000.pdf
-saved ../figures/figs3_mass10_pop7_traj.pdf
 saved ../figures/figs3_mass10_pop7_median_20000.pdf
-saved ../figures/figs3_mass10_pop15_traj.pdf
 saved ../figures/figs3_mass10_pop15_median_20000.pdf
+saved ../figures/figs3_mass10_pop15_traj.pdf
+saved ../figures/figs3_mass10_pop7_traj.pdf
 
 # number of epochs to fitness 30.0
 evo: 5538.0 [2676.0-6902.0]
