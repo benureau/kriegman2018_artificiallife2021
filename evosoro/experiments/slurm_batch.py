@@ -6,6 +6,11 @@ import importlib
 import subprocess
 
 
+
+
+# directory of your python virtualenv with the requirements installed
+VENV_DIRECTORY = '~/.venvs/kriegman2018/bin/activate'
+
 SCRIPT = """
 #!/bin/bash
 sbatch << EOT
@@ -25,7 +30,7 @@ sbatch << EOT
 
 pwd; hostname; date;
 
-source ~/.venvs/kriegman2018/bin/activate
+source {venv_dir}
 time python {python_script}
 
 echo ""
@@ -35,30 +40,25 @@ EOT
 """
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('script',     help="the experiment script")
-parser.add_argument('--quiet',    help="don't display slurm script", default=False, action='store_true')
-parser.add_argument('--restart',  help="restart from scratch the computation", action='store_true', default=False)
-parser.add_argument('--force',    help="launch even disabled configs", action='store_true', default=False)
-parser.add_argument('--pretend',  help="do not actually submit", default=False, action='store_true')
-parser.add_argument('--queue',    help="queue name (default short)", default='compute', action='store')
-parser.add_argument('--tag',      help="only run config with this tag", default=None, action='store')
-parser.add_argument('--array',    help="slurm array", default=None)
-parser.add_argument('--nosqueue', help="don't try to get active job status", default=False, action='store_true')
-args = parser.parse_args()
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('script',     help="the experiment script")
+    parser.add_argument('--quiet',    help="don't display slurm script", default=False, action='store_true')
+    parser.add_argument('--pretend',  help="do not actually submit", default=False, action='store_true')
+    args = parser.parse_args()
 
     assert args.script.endswith('.py')
     modname = args.script[:-3]
     exp = importlib.import_module(modname)
 
-    queue_name = 'compute'
+    # edit to match your resources/hardware.
+    queue_name = 'compute'  # you might want to change this to your cluster queue name
     duration = '{}:05:00'.format(exp.MAX_TIME)
     n_cores = exp.POP_SIZE + 3
     memory = '32gb'
 
-    prefix = os.path.join(os.path.dirname(__file__), '../../../results/run_{}/'.format(modname))
+    prefix = os.path.join(os.path.dirname(__file__), '../../results/run_{}/'.format(modname))
     for seed in range(exp.MIN_SEED, exp.MAX_SEED+1):
         output_filepath = prefix + 'seed{}'.format(seed)
         if not os.path.exists(output_filepath):
@@ -72,7 +72,7 @@ if __name__ == '__main__':
                            memory=memory, duration=duration, n_cores=n_cores,
                            output_filepath_slurm=output_filepath_slurm,
                            error_filepath_slurm=error_filepath_slurm,
-                           queue_name=args.queue,
+                           queue_name=queue_name, venv_dir=VENV_DIRECTORY,
                            python_script=args.script)
 
     print('submitting {} for seeds {}'.format(modname, array_index))

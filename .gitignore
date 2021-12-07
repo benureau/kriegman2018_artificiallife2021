@@ -4,5 +4,7 @@ voxelyze
 *.d
 libvoxelyze*
 evosoro/_voxcad/Makefile
-*.pdf
 .DS_Store
+
+post/
+results/
